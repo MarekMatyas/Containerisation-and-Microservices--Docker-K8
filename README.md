@@ -331,3 +331,120 @@ Lastly we can use `docker push` command to push the docker image to a Docker Hub
 **USEFUL NOTE**: If we ever experience connectivity trouble, to prevent any issues we can use this command `docker run -d -p 4000:4000 docs/docker.github.io` which contains the documentation of Docker which can be accessed while offline. It will download all the neccessary documentation packages and can be accessed by typing `localhost:4000` in our browser search bar.
 
 ![](pictures/docker_docs.png)
+
+
+# Deployment of our node APP
+
+First things first we need to clarify an importand fact. We can have only one `Dockerfile` in the same directory but if we would like to create another one it has to be in subdirectory so we will need to create a folder within the main directory where we create another `Dockerfile` just like so:
+
+![](pictures/new_docker.png)
+
+Next step is to manually copy our `app` folder that contains all the scripts for the app. We do that by locating the app folder locally, copying the file, and pasting it in the `node-app` folder where the second `Dockerfile` is located as we can see in the picture above. 
+
+Next can move onto configuring the second `Dockerfile` for our app. 
+
+```
+FROM node:latest
+
+RUN mkdir -p /app/src
+
+WORKDIR /app/src
+
+COPY app .
+
+RUN npm install
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
+
+```
+---
+
+Let's break this configuration of the `Dockerfile` down:
+
+```
+FROM node:latest
+```
+This line specifies the base image to use for building the Docker image. Here, the base image is the latest version of the Node.js image available on Docker Hub. 
+![](pictures/node_im.png)
+
+---
+```
+RUN mkdir -p /app/src
+```
+This line creates new directory at /app/src within the Docker container. 
+
+---
+```
+WORKDIR /app/src
+```
+This sets the working directory to /app/src. This means that any commands that operate on the file system will be executed in this directory.
+
+---
+```
+COPY app .
+```
+This line copies the contents of the local "app" directory to the current working directory inside the Docker containers which is /app/src.
+
+---
+```
+RUN npm install
+```
+This runs the `npm install` command inside the Docker container. Install the dependencies required.
+
+---
+```
+EXPOSE 3000
+```
+This helps us expose port 3000 in the Docker container. Any services running inside the container and listening on port 3000 will be accessible.
+
+---
+```
+CMD ["npm","start"]
+```
+Here we specify the command to run when the Docker container is started.
+
+---
+ 
+Now our `Dockerfile` is fully configured so we can move onto the next step. 
+
+In our VS code bash terminal we need to navigate into our app folder that we imported previously.
+
+![](pictures/cd_app.png)
+
+For the next step they are 2 ways to approaching this. We can create a new repository manually on Docker Hub or we can do it in our terminal. In this excercise we do it in our terminal. 
+
+We run `docker build . -t nodeapp` that build an image called "nodeapp"
+
+When we run `docker images` to display all images we should be able to find our image we have just built:
+
+![](pictures/node_app.png)
+
+Next we can run `docker run -d -p 3000:3000 nodeapp` command that will start the Docker container based on the `nodeapp` image. 
+
+- **NOTE** that we specify the port that we want to work on.
+
+Then we can run `docker ps` to list out the details and ID's that we will need to use for the next step. 
+
+After we retrieved the ID, we use the following command:
+`docker commit 5f7721d842d2 marekmatyas/marek_tech201_node_app`
+- `5f7721d842d2` this is the ID of the container 
+- `marekmatyas` this is our username on Docker Hub
+- `marek_tech201_node_app` this is the name of the repository we created for this project.
+
+---
+
+Lastly we push the Docker image to a Docker registry. 
+- `docker push marekmatyas/marek_tech201_node_app`
+
+When we refresh the Docker Hub page of our repositories, we should be able to see the newly created repository.
+
+![](pictures/repo.png)
+
+---
+To test the functionality, we can type `localhost:3000` in our browser and the app should be displayed. 
+![](pictures/app_ready.png)
+
+
+

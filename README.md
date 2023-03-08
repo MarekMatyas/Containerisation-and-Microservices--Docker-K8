@@ -84,9 +84,9 @@ Overall, while virtualization provides better isolation, containerization is mor
 
 Docker is built on a client-server architecture that consists of three main components:
 
-1. Docker daemon: It is the server-side component that manages Docker objects such as images, containers, networks, and volumes.
+1. Docker client: It is the command-line interface (CLI) used to interact with the Docker daemon. The client sends commands to the daemon, which executes them and returns the results. 
 
-2. Docker client: It is the command-line interface (CLI) used to interact with the Docker daemon. The client sends commands to the daemon, which executes them and returns the results.
+2. Docker daemon: It is the server-side component that manages Docker objects such as images, containers, networks, and volumes. 
 
 3. Docker registry: It is a centralized repository for storing Docker images. Docker Hub is the default public registry for storing and sharing Docker images, while private registries can also be used.
 
@@ -262,10 +262,10 @@ There we will need to create an html file called `index.html` in that directory 
 ```html
 <html>
     <head>
-        <title>Welcome to Shahrukh's website</title>
+        <title>Welcome to Marek's website</title>
     </head>
     <body>
-        <h1>Welcome to Mareks Website</h1>
+        <h1>Welcome to Marek's Website</h1>
         <h2>This website is hosted inside a container using docker to build a Micro-Service</h2>
     </body>
 </html>

@@ -1,4 +1,4 @@
-# Kubernetes K8
+# Kubernetes (K8)
 
 
 ## Kubernetes set up
@@ -18,7 +18,7 @@ To resolve this we need to open our Docker Desktop and go to settings. From ther
 
 Lastly we need to click on "Apply& restart". This might take a while so please be patient. Once that is done, you might have to restart your machine. 
 
-This is if the Kubernetes and Docker are running correctly we can see that on the bottom-left corner of Docker Desktop.
+This is if the Kubernetes and Docker are running correctly. We can see this  green indicator on the bottom-left corner of Docker Desktop.
 
 ![](pictures/running.png)
 
@@ -115,8 +115,8 @@ NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 
 ---
 
-## What is Kubernetes K8 ?
-
+## What is Kubernetes ?
+![](pictures/K8.png)
 Kubernetes is an open-source container orchestration platform that automates the
 deployment, scaling, and management of containerized applications.
 
@@ -149,15 +149,35 @@ These objects are defined using YAML or JSON manifests, which describes the desi
 
 ![](pictures/Screenshot%202023-03-13%20100411.png)
 
-Kubernetes architecture consists of a ***master node and worker nodes.** 
+Kubernetes architecture consists of a **master node and worker nodes.** 
 
 The master node is responsible for managing the Kubernetes cluster and it's components, including the API server, etcd data store, scheduler, and controller manager. 
-The **API server** serves as the front-end for the Kubernetes control plane, allowing users and administrators to interact with the cluster. The **etcd data store** stores configuration data for the cluster. The **scheduler** is responsible for scheduling workloads on the worker nodes, and the **controller manager** manages the state of the cluster by monitoring and reconciling the actual state with the desired state.
 
-The worker nodes are responsible for running applications and workloads, represented by Pods. Each worker node runs a container runtime, such as Docker, and a kubelet agent that communicates with the master node to receive instructions on scheduling and managing Pods. 
+The worker nodes are responsible for running applications and workloads, represented by Pods. Each worker node runs a container runtime, such as Docker, and a kubelet agent that communicates with the master node to receive instructions on scheduling and managing Pods.
 
-Communication between the master and worker nodes is achieved using the Kubernetes API, and communication between the Pods is achieved using a networking plugin, such as Calico or Flannel, which provides an overlay network across the cluster.
+Communication between the master and worker nodes is achieved using the Kubernetes API, and communication between the Pods is achieved using a networking plugin, such as Calico or Flannel.
 
+---
+
+**1. API server:** It is the central management point for the cluster, which exposes the Kubernetes API and handles all communication with the Kubernetes objects.
+
+---
+**2. Controller Manager**: is a component of the control plane that run on the master node and manages various controllers that regulate tha state of the cluster. The Controller Manager ensures that the current state of the cluster mathces the desired state. 
+
+---
+
+**3. The scheduler**: is responsible for scheduling workloads on the worker nodes.
+
+---
+
+
+**4. etcd data store**: A distributed key-value store that stores all the configuration data of the Kubernetes cluster.
+
+---
+
+**5. Pod**: Th smallest and simplest unit in the Kubernetes object model, which represents a single instance of a running process in the cluster.
+
+--- 
 ## Single-node cluster & multi-node cluster
 
 **1. A single-node** is typically used for development and testing purposes, as it provides an easy and lightweight way to run and test Kubernetes workloads on a local machine. A single-node cluster includes all the components of a standard Kubernetes cluster, including the API server, etcd, kubelet, and kube-proxy, but they all run on a single host.

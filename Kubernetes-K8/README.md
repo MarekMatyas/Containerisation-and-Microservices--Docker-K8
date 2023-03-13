@@ -117,6 +117,7 @@ NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
 
 ## What is Kubernetes ?
 ![](pictures/K8.png)
+
 Kubernetes is an open-source container orchestration platform that automates the
 deployment, scaling, and management of containerized applications.
 

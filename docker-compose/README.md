@@ -121,3 +121,15 @@ To check the functionality, we open our browser and type in `localhost/posts` an
 
 ![](pictures/posts.png)
 
+---
+
+ We could automate the process of entering the container and manually populating the app with data.
+
+ We can achieve that by using a shell script in our `Dockerfile`. 
+
+ Example:
+
+ ```YAML
+ command: bash -c "shell_script"
+ ``` 
+And running the `docker-compose.yaml` file all together with `docker-compose up`. 

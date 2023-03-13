@@ -22,6 +22,14 @@ This is if the Kubernetes and Docker are running correctly we can see that on th
 
 ![](pictures/running.png)
 
+We can also check the successful instalation by using   `kubectl get svc` command in GitBash. 
+
+This should be our output:
+
+![](pictures/status.png)
+
+
+
 **NOTE**
 
 To list out useful commands type `kubectl` in GitBash Terminal:

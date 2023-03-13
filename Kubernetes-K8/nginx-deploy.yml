@@ -4,13 +4,13 @@ metadata:
   name: nginx-deployment # naming the deployment
 spec:
   selector:
-    matchLables:
+    matchLabels:
       app: nginx # Look for this lable 
 
   replicas: 3 # How many replicas/instances 
   template: 
     metadata: 
-      lables: 
+      labels: 
         app: nginx # This label connects to the service or any other K8 components
     # Lets define the container spec
     spec:  

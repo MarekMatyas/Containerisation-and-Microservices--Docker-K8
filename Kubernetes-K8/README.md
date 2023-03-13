@@ -157,9 +157,10 @@ Communication between the master and worker nodes is achieved using the Kubernet
 **2. A multi-node cluster** is used in production environments, where high availability and scalability are important. A multi-node cluster consists of **multiple nodes**, each running the Kubernetes components and hosting one or more Kubernetes workloads.
 The nodes communicate with each other to maintain cluster state and ensure that workloads are scheduled and run correctly. 
 
-### Sumarry
+### Summary
 
 In summary, a single-node cluster is useful for testing and development, while a multi-node cluster is necessary for production workloads that require scalability, high availability, and fault tolerance.
+
 ---
 
 ## K8 Dependencies

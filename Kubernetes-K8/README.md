@@ -212,5 +212,77 @@ It's important to ensure that all the dependencies are compatible with each othe
 
 --- 
 
+# Deployment of Node App
+
+
+1. For this task we will need to create a yaml file called `node-app-deploy.yml` where we write a script for deployment of the app. 
+
+The script for `node-app-deploy.yml` file:
+
+```YAML
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: nodejs-deployment
+spec:
+  selector:
+    matchLabels:
+      app: nodejs-app
+  replicas: 3
+  template: 
+    metadata: 
+      labels: 
+        app: nodejs-app
+    spec:  
+      containers:
+      - name: nodejs-app
+        image: marekmatyas/marek_tech201_node_app:latest
+        ports: 
+        - containerPort: 3000 
+```
+**NOTE**:
+- `apiVersion`: Specifies the version of the Kubernetes API that this YAML file uses. In this case, `apps/v1` is used for deploying applications.
+- `kind` : Specifies the type of Kubernetes object being created. In this case, it is a `Deployment` object.
+- `replicas`: How many instances, in this case, 3.
+- `labels`: The labels will be used in the next iteration for the service to communication.
+- `image`: We will use the existing image for Node app from Docker Hub that we have previously created- `marekmatyas/marek_tech201_node_app:latest`
+- `ports`- Specify the ports that we want to work on. 
+ 
+
+
+
+2. Now we need to create another file in the same directory called `node-app-service.yml` to expose the app to the outside world. 
+
+The script for `node-app-service.yml` file: 
+
+```YAML
+apiVersion: v1
+kind: Service
+metadata: 
+  name: nodejs-app-svc
+  namespace: default
+
+spec: 
+  ports: 
+  - nodePort: 30002 
+    port: 3000
+
+
+    targetPort: 3000
+
+  selector: 
+    app: nodejs-app # this label connects this service to deployment
+
+  type: NodePort
+```
+
+- Next we need to run our our VS code bash terminal `kubectl create -f node-app-deploy.yml`. This commands instructs `kubectl` to read the YAML file, interpret the contents, and create a Kubernetes deployment object based on the specified configuration.
+![](pictures/deploy.png)
+
+- Lastly we need to run `kube create -f node-app-service.yml` command.
+
+Now we should have our app deployed and running. To check the functionality we type in the browswe `localhost`+ `nodePort`, in this case 30002.
+![](pictures/app_running.png)
+
 
 

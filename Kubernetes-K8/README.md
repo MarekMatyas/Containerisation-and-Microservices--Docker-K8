@@ -214,6 +214,13 @@ It's important to ensure that all the dependencies are compatible with each othe
 
 # Deployment of Node App
 
+![](pictures/K8%20diagram.png)
+
+### **Deployment and Service**
+
+**A deployment in Kubernetes** is responsible for managing the deployment of a set of identical pods. It defines a desired state of the pod replicas and manages lifecycle of these pods. **Deployment ensuresthat the desired number of replicas of a pod is running**
+
+**A service in Kubernetes** is a way to expose a set of pods as a network service. It **provides a stable network endpoint to access these pods.** 
 
 1. For this task we will need to create a yaml file called `node-app-deploy.yml` where we write a script for deployment of the app. 
 

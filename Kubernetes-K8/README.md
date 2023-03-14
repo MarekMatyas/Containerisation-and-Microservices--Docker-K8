@@ -284,6 +284,7 @@ spec:
 ```
 
 - Next we need to run our our VS code bash terminal `kubectl create -f node-app-deploy.yml`. This commands instructs `kubectl` to read the YAML file, interpret the contents, and create a Kubernetes deployment object based on the specified configuration.
+
 ![](pictures/deploy.png)
 
 - Lastly we need to run `kube create -f node-app-service.yml` command.

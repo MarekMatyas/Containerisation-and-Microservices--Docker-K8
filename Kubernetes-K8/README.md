@@ -287,7 +287,7 @@ spec:
 
 ![](pictures/deploy.png)
 
-- Lastly we need to run `kube create -f node-app-service.yml` command.
+- Lastly we need to run `kubectl create -f node-app-service.yml` command.
 
 Now we should have our app deployed and running. To check the functionality we type in the browswe `localhost`+ `nodePort`, in this case 30002.
 ![](pictures/app_running.png)

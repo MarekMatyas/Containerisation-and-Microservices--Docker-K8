@@ -283,6 +283,10 @@ spec:
   type: NodePort
 ```
 
+**NOTE**
+- `port` defines the port on which the service is listening internally in the Kubernetes Cluster.
+- `nodePort` defines a port on the nodes of the Kubernetes cluster, which can be used to access the service from outside the cluster. 
+
 - Next we need to run our our VS code bash terminal `kubectl create -f node-app-deploy.yml`. This commands instructs `kubectl` to read the YAML file, interpret the contents, and create a Kubernetes deployment object based on the specified configuration.
 
 ![](pictures/deploy.png)

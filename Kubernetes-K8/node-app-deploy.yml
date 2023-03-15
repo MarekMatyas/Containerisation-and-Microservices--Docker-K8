@@ -3,26 +3,28 @@
 apiVersion: apps/v1 #which Api to use for deployment
 kind: Deployment # what kind of API/object you want to create
 metadata: 
-  name: nodejs-deployment # naming the deployment
+  name: nodejs-deployment # name for the deployment
 spec:
   selector:
     matchLabels:
-      app: nodejs-app # Look for this lable 
+      app: node-app 
 
   replicas: 3 # How many replicas/instances 
   template: 
     metadata: 
       labels: 
-        app: nodejs-app # This label connects to the service or any other K8 components
+        app: node-app # This label connects to the service or any other K8 components
     # Lets define the container spec
     spec:  
       containers:
-      - name: nodejs-app
+      - name: node-app
         image: marekmatyas/marek_tech201_node_app:latest
         ports: 
         - containerPort: 3000
-        imagePullPolicy: Always
         env:
-          -  name: DB_HOST
-             value: mongodb://mongo:27017/posts
-        command: 
+        -  name: DB_HOST
+           value: mongodb://mongo:27017/posts
+        lifecycle: 
+          postStart:
+            exec: 
+              command: ["node", "seeds/seed.js"]

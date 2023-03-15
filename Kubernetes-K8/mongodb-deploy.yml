@@ -3,14 +3,16 @@
 
 apiVersion: v1
 kind: PersistentVolumeClaim
-metadata:
-  name: mongo-pvc
-spec:
+metadata: 
+  name: mongo-db
+spec: 
   accessModes:
     - ReadWriteOnce
-  resources:
+  resources: 
     requests:
       storage: 256Mi
+
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -20,7 +22,7 @@ spec:
   selector:
     matchLabels:
       app: mongo
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
@@ -28,13 +30,44 @@ spec:
     spec:
       containers:
         - name: mongo
-          image: bakarhs/mongo:v2
+          image: mongo:3.2.20
           ports:
             - containerPort: 27017
           volumeMounts:
             - name: storage
-              mountPath: /data/db
-      volumes:
-        - name: storage
-          persistentVolumeClaim:
-            claimName: mongo-pvc
+              mountPath: /Documents/data/db
+      volumes: 
+        - name: storage 
+          persistentVolumeClaim: 
+            claimName: mongo-db
+
+--- 
+apiVersion: v1
+kind: Service
+metadata: 
+  name: mongo
+
+spec: 
+  selector: 
+    app: mongo
+  ports: 
+    - port: 27017
+      targetPort: 27017
+
+---
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler #(HPA)
+
+metadata: 
+  name: sparta-mongo-db-deploy
+  namespace: default
+
+spec: 
+  maxReplicas: 9
+  minReplicas: 3
+  scaleTargetRef: 
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mongo
+  targetCPUUtilizationPercentage: 50

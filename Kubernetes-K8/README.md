@@ -222,6 +222,10 @@ It's important to ensure that all the dependencies are compatible with each othe
 
 **A service in Kubernetes** is a way to expose a set of pods as a network service. It **provides a stable network endpoint to access these pods.** 
 
+---
+
+
+
 1. For this task we will need to create a yaml file called `node-app-deploy.yml` where we write a script for deployment of the app. 
 
 The script for `node-app-deploy.yml` file:
@@ -295,6 +299,171 @@ spec:
 
 Now we should have our app deployed and running. To check the functionality we type in the browswe `localhost`+ `nodePort`, in this case 30002.
 ![](pictures/app_running.png)
+
+---
+
+## Deployment of Mongodb database and Nodejs as microservice K8
+
+Now for this task we will need to create additional files and the order that we run them in is very important. 
+
+- `mongodb-deploy.yml`
+- `mongodb-service.yml`
+- `node-app-deploy.yml`
+- `node-app-service.yml`
+
+Let's have a look at the each file in more detail:
+
+1. `mongo deployment`
+
+```YAML
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo
+spec:
+  selector:
+    matchLabels:
+      app: mongo
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:3.2.20
+          ports:
+          - containerPort: 27017
+``` 
+Just like previously, we need to specify the `kind` of the object we want to create -> `Deployment`. Appropriate name, label, number of instances, image we want to work with, and port. 
+
+---
+
+2. `mongo service`
+
+```YAML
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: mongo
+
+spec: 
+  selector: 
+    app: mongo
+  ports: 
+    - port: 27017
+      targetPort: 27017
+```
+
+In this file we specify the `apiVersion`, kind of the object -> `Service`, name, label, and the port. 
+
+---
+
+3. `node deploy`
+
+```YAML
+---
+apiVersion: apps/v1 #which Api to use for deployment
+kind: Deployment # what kind of API/object you want to create
+metadata: 
+  name: nodejs-deployment # name for the deployment
+spec:
+  selector:
+    matchLabels:
+      app: node-app 
+
+  replicas: 3 # How many replicas/instances 
+  template: 
+    metadata: 
+      labels: 
+        app: node-app # This label connects to the service or any other K8 components
+    # Lets define the container spec
+    spec:  
+      containers:
+      - name: node-app
+        image: marekmatyas/marek_tech201_node_app:latest
+        ports: 
+        - containerPort: 3000
+        env:
+        -  name: DB_HOST
+           value: mongodb://mongo:27017/posts
+        lifecycle: 
+          postStart:
+            exec: 
+              command: ["node", "seeds/seed.js"]
+```
+In this file for `node deployment` we need to specify the image we want to be working with. In this case I used `marekmatyas/marek_tech201_node_app:latest` which is my own working image from Docker Hub for app deployment. 
+To establish the connection between node and mongo, we need to configure the **Environment Variable** called `DB_HOST`. 
+
+
+The code below specifies to run certain processes after the deployment, which is to populate/"seed" the database. 
+```YAML
+lifecycle: 
+          postStart:
+            exec: 
+              command: ["node", "seeds/seed.js"]
+```
+
+---
+
+4. `node service`
+
+```YAML
+---
+
+apiVersion: v1
+kind: Service
+metadata: 
+  name: nodejs-app-svc
+  namespace: default
+
+spec: 
+  ports: 
+  - nodePort: 30002 #range is 30000- 32768
+    port: 3000
+
+
+    targetPort: 3000
+
+  selector: 
+    app: node-app # this label connects this service to deployment
+
+  type: NodePort
+```
+
+And lastly this is our `node-app-service.yml` file. We need to ensure that the labels for Service and Deployment file are correct. 
+
+**NOTE**
+- `port` defines the port on which the service is listening internally in the Kubernetes Cluster.
+- `nodePort` defines a port on the nodes of the Kubernetes cluster, which can be used to access the service from outside the cluster.
+
+---
+
+Now that all `.yml` files are configured we need to run them in a certain order. 
+
+- `kubectl create -f mongodb-deploy.yml`
+- `kubectl create -f mongodb-service.yml`
+To check if these commands were succesfull we can use `kubectl get deploy` and `kubectl get svc` to display the deployment and services are created and running.
+
+- `kubectl create -f node-app-deploy.yml`
+- `kubectl create -f node-app-service.yml`
+
+Use the same commands as before to display the succesfull process using `kubectl get deploy` and `kubectl get svc`.
+
+Additionally, we can check if the pods are also running correctly using `kubectl get pods` command. 
+
+If all the steps above were succesfull, we should be able to see the app displayed with the posts: 
+
+![](pictures/posts-working.png)
+
+---
+
+## Implementation of Autoscaler and PVC(PersistentVolumeClaim) for High Availability
+
+![](pictures/new-K8-diagram.png)
 
 
 

@@ -9,13 +9,13 @@ metadata:
 
 spec: 
   ports: 
-  - nodePort: 30002 #range is 30000- 
+  - nodePort: 30002 #range is 30000- 32768
     port: 3000
 
 
     targetPort: 3000
 
   selector: 
-    app: nodejs-app # this label connects this service to deployment
+    app: node-app # this label connects this service to deployment
 
   type: NodePort

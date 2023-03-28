@@ -1,5 +1,15 @@
 # Containerisation-and-Microservices--Docker-K8
 
+## What are microservices?
+
+Microservices are a software development approach where a large application is broken down into smaller, independent components, each of which performs a specific business function. These smaller components are developed, deployed, and managed separately, and communicate with each other through APIs (Application Programming Interfaces).
+
+Microservices are designed to be highly scalable, flexible, and easily maintainable. Because they are developed and deployed independently, they can be updated, fixed, or improved without affecting the entire application. This allows for faster development cycles, greater agility, and easier testing and deployment.
+
+### Containers VS Microservices
+
+In simple terms, containers are a way to package and deploy applications, while microservices are an approach to designing and building applications. Containers provide a way to run microservices in a portable and consistent way, but they are not the same thing.
+
 Let's dive into working with Docker. 
 
 Fist we will need to install Docker using this simple guide for Windows 11 -> [Docker install guide](https://www.youtube.com/watch?v=AAWNQ2wDVAg). We will be prompted a couple times to restart our laptop for the changes to take effect. 

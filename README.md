@@ -220,7 +220,7 @@ Let's open a GitBash terminal as admin and run this command:
 
 - `docker ps` to list out all the details and ID's
 
-- To enter the container we use `docker exe -it "CONTAINER ID" sh` this command will start the interactive shell
+- To enter the container we use `docker exec -it "CONTAINER ID" sh` this command will start the interactive shell
 - `apt update -y`
 - `apt upgrade -y`
 - ` apt install nano` to install the editor
